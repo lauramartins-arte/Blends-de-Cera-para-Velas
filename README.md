@@ -3,7 +3,7 @@
 Ferramenta completa para criação de velas artesanais com calculadora inteligente e filtros interativos.
 
 ## Acesse o Guia
-[Clique aqui para usar o guia](https://seuusername.github.io/Blends-de-Cera-para-Velas)
+[Clique aqui para usar o guia](https://lauramartins-arte.github.io/Blends-de-Cera-para-Velas)
 
 ## Funcionalidades
 - Calculadora de proporções
