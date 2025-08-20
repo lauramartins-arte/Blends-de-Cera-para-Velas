@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Interativo - Blends de Cera para Velas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f2e8 0%, #e8dcc0 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 0.95;
+        }
+
+        .filter-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .filter-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .filter-group {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-group h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #d4af37;
+            border-color: #d4af37;
+            color: white;
+        }
+
+        .calculator {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px dashed #d4af37;
+        }
+
+        .calculator h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .calc-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .calc-input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            font-weight: 500;
+            margin-top: 15px;
+            display: none;
+            line-height: 1.4;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .blends-container {
+            padding: 20px;
+        }
+
+        .blends-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .blends-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .blend-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .blend-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .blend-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
+            border-bottom: 1px solid #eee;
+        }
+
+        .blend-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .blend-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .blend-content {
+            padding: 20px;
+        }
+
+        .proportion-display {
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .pros-cons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            border-left: 4px solid #28a745;
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #fff3cd 0%, #fdeaa7 100%);
+            border-left: 4px solid #ffc107;
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .pros h4 {
+            color: #155724;
+        }
+
+        .cons h4 {
+            color: #856404;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pros li, .cons li {
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .pros li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .cons li::before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #ffc107;
+            font-size: 1rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Media Queries para melhor responsividade */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .filter-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .filter-group {
+                flex: 1;
+                min-width: 250px;
+            }
+            
+            .calc-grid {
+                flex-direction: row;
+            }
+            
+            .blends-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 25px;
+            }
+            
+            .pros-cons {
+                flex-direction: row;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                margin: 20px auto;
+            }
+            
+            .header {
+                padding: 40px;
+            }
+            
+            .filter-section {
+                padding: 30px;
+            }
+            
+            .calculator {
+                margin: 30px;
+                padding: 30px;
+            }
+            
+            .blends-container {
+                padding: 30px;
+            }
+        }
+
+        /* Animações */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* Ajustes específicos para Membify */
+        .membify-content {
+            background: transparent !important;
+            padding: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🕯️ Blends de Cera para Velas</h1>
+            <p>Descubra a combinação perfeita para suas velas artesanais</p>
+        </header>
+
+        <section class="filter-section">
+            <h2 class="filter-title">🔍 Filtrar Blends</h2>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <h3>🎯 Tipo de Vela</h3>
+                    <div class="filter-options">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="aromatic">Aromáticas</button>
+                        <button class="filter-btn" data-filter="premium">Premium</button>
+                        <button class="filter-btn" data-filter="molded">Moldadas</button>
+                        <button class="filter-btn" data-filter="natural">Naturais</button>
+                        <button class="filter-btn" onclick="resetFilters()" style="background: #ff6b6b; border-color: #ff6b6b; color: white;">🔄 Reset</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>💰 Custo</h3>
+                    <div class="filter-options">
+                        <button class="filter-btn" data-cost="low">Baixo</button>
+                        <button class="filter-btn" data-cost="medium">Médio</button>
+                        <button class="filter-btn" data-cost="high">Alto</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>🌿 Naturalidade</h3>
+                    <div class="filter-options">
+                        <button class="filter-btn" data-natural="true">100% Natural</button>
+                        <button class="filter-btn" data-natural="false">Com Parafina</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="calculator">
+            <h3>🧮 Calculadora Inteligente de Blends</h3>
+            <div class="calc-grid">
+                <input type="number" class="calc-input" id="totalWax" placeholder="Digite o total de cera em gramas (ex: 500)" min="1" step="1">
+                <select class="calc-input" id="blendType">
+                    <option value="">Escolha o tipo de blend</option>
+                    <option value="soja-parafina-70-30">Soja 70% + Parafina 30%</option>
+                    <option value="soja-coco-80-20">Soja 80% + Coco 20%</option>
+                    <option value="palma-parafina-70-30">Palma 70% + Parafina 30%</option>
+                    <option value="abelha-soja-60-40">Abelha 60% + Soja 40%</option>
+                    <option value="coco-palma-70-30">Coco 70% + Palma 30%</option>
+                </select>
+            </div>
+            <div class="calc-result" id="calcResult">
+                <div id="resultText"></div>
+            </div>
+        </div>
+
+        <section class="blends-container">
+            <h2 class="blends-title">📚 Guia Completo de Blends</h2>
+            <div class="blends-grid" id="blendsContainer">
+                <!-- Cards serão inseridos aqui pelo JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Dados dos blends
+        const blends = [
+            {
+                title: "Cera de Soja + Parafina",
+                subtitle: "Queima limpa com excelente fixação de fragrância",
+                proportion: "70% Soja + 30% Parafina",
+                type: ["aromatic"],
+                cost: "medium",
+                natural: false,
+                duration: "Média-Longa",
+                fragrance: "Excelente",
+                pros: [
+                    "Queima equilibrada e limpa",
+                    "Ótima fixação de aroma",
+                    "Textura suave e brilhante",
+                    "Custo-benefício excelente"
+                ],
+                cons: [
+                    "Contém parafina (petróleo)",
+                    "Pode apresentar frosting",
+                    "Não é 100% natural"
+                ]
+            },
+            {
+                title: "Cera de Soja + Cera de Coco",
+                subtitle: "Blend premium 100% natural com textura cremosa",
+                proportion: "80% Soja + 20% Coco",
+                type: ["premium", "aromatic", "natural"],
+                cost: "high",
+                natural: true,
+                duration: "Longa",
+                fragrance: "Excepcional",
+                pros: [
+                    "100% natural e sustentável",
+                    "Aroma intenso e duradouro",
+                    "Queima ultra limpa",
+                    "Textura cremosa luxuosa"
+                ],
+                cons: [
+                    "Custo mais elevado",
+                    "Pode ser macio para moldagem",
+                    "Requer ajustes de temperatura"
+                ]
+            },
+            {
+                title: "Cera de Palma + Parafina",
+                subtitle: "Ideal para velas moldadas e decorativas",
+                proportion: "70% Palma + 30% Parafina",
+                type: ["molded"],
+                cost: "medium",
+                natural: false,
+                duration: "Muito Longa",
+                fragrance: "Boa",
+                pros: [
+                    "Velas muito resistentes",
+                    "Excelente para moldagem",
+                    "Boa aderência de cor",
+                    "Queima lenta e duradoura"
+                ],
+                cons: [
+                    "Impacto ambiental",
+                    "Pode precisar pavio maior",
+                    "Menos natural"
+                ]
+            },
+            {
+                title: "Cera de Abelha + Cera de Soja",
+                subtitle: "Blend natural com aroma suave de mel",
+                proportion: "60% Abelha + 40% Soja",
+                type: ["natural"],
+                cost: "high",
+                natural: true,
+                duration: "Muito Longa",
+                fragrance: "Natural (Mel)",
+                pros: [
+                    "100% natural e biodegradável",
+                    "Queima limpa e duradoura",
+                    "Aroma natural de mel",
+                    "Propriedades purificadoras"
+                ],
+                cons: [
+                    "Custo muito elevado",
+                    "Não aceita fragrâncias sintéticas",
+                    "Cor amarelada natural"
+                ]
+            },
+            {
+                title: "Cera de Coco + Cera de Palma",
+                subtitle: "Blend premium natural com excelente performance",
+                proportion: "70% Coco + 30% Palma",
+                type: ["premium", "natural"],
+                cost: "high",
+                natural: true,
+                duration: "Longa",
+                fragrance: "Excelente",
+                pros: [
+                    "Queima limpa e sustentável",
+                    "Ótima fixação de fragrância",
+                    "Textura premium",
+                    "Velas resistentes"
+                ],
+                cons: [
+                    "Custo elevado",
+                    "Ajustes de temperatura",
+                    "Disponibilidade limitada"
+                ]
+            }
+        ];
+
+        // Função para renderizar os blends
+        function renderBlends(filteredBlends) {
+            // Garantir que filteredBlends seja sempre um array válido
+            if (!filteredBlends || !Array.isArray(filteredBlends)) {
+                filteredBlends = blends;
+            }
+            
+            const container = document.getElementById('blendsContainer');
+            if (!container) {
+                console.error('Container blendsContainer não encontrado');
+                return;
+            }
+            
+            console.log('Renderizando', filteredBlends.length, 'blends'); // Debug
+            container.innerHTML = '';
+
+            // Verificar novamente se é um array antes do forEach
+            if (Array.isArray(filteredBlends) && filteredBlends.length > 0) {
+                filteredBlends.forEach((blend, index) => {
+                const card = document.createElement('div');
+                card.className = 'blend-card fade-in';
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                card.innerHTML = `
+                    <div class="blend-header">
+                        <h3 class="blend-title">${blend.title}</h3>
+                        <p class="blend-subtitle">${blend.subtitle}</p>
+                    </div>
+                    <div class="blend-content">
+                        <div class="proportion-display">
+                            ${blend.proportion}
+                        </div>
+                        <div class="info-section">
+                            <div class="info-item">
+                                <span class="info-label">Duração:</span>
+                                <span class="info-value">${blend.duration}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fragrância:</span>
+                                <span class="info-value">${blend.fragrance}</span>
+                            </div>
+                        </div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Vantagens</h4>
+                                <ul>
+                                    ${blend.pros.map(pro => `<li>${pro}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cuidados</h4>
+                                <ul>
+                                    ${blend.cons.map(con => `<li>${con}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+                });
+            } else if (filteredBlends.length === 0) {
+                // Mostrar mensagem quando não há resultados
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                        <h3>🔍 Nenhum blend encontrado</h3>
+                        <p>Tente ajustar os filtros para ver mais opções.</p>
+                    </div>
+                `;
+            } else {
+                // Fallback caso ainda haja problema
+                console.error('Erro: filteredBlends não é um array válido', filteredBlends);
+                setTimeout(() => renderBlends(blends), 100); // Tentar novamente com delay
+            }
+        }
+
+        // Função para filtrar blends
+        function filterBlends() {
+            try {
+                // Coletar filtros ativos
+                const typeFilters = Array.from(document.querySelectorAll('[data-filter].active') || [])
+                    .map(btn => btn.dataset.filter)
+                    .filter(filter => filter);
+                
+                const costFilters = Array.from(document.querySelectorAll('[data-cost].active') || [])
+                    .map(btn => btn.dataset.cost)
+                    .filter(cost => cost);
+                
+                const naturalFilters = Array.from(document.querySelectorAll('[data-natural].active') || [])
+                    .map(btn => btn.dataset.natural)
+                    .filter(natural => natural);
+
+                console.log('Filtros ativos:', { typeFilters, costFilters, naturalFilters });
+
+                let filtered = [...blends];
+
+                // Se não há filtros ativos OU se "all" está ativo, mostrar todos
+                if ((typeFilters.length === 0 && costFilters.length === 0 && naturalFilters.length === 0) || 
+                    typeFilters.includes('all')) {
+                    renderBlends(blends);
+                    return;
+                }
+
+                // Aplicar filtro de tipo (se houver tipos selecionados)
+                if (typeFilters.length > 0 && !typeFilters.includes('all')) {
+                    filtered = filtered.filter(blend => {
+                        if (!Array.isArray(blend.type)) return false;
+                        return blend.type.some(type => typeFilters.includes(type));
+                    });
+                }
+
+                // Aplicar filtro de custo (se houver custo selecionado)
+                if (costFilters.length > 0) {
+                    filtered = filtered.filter(blend => costFilters.includes(blend.cost));
+                }
+
+                // Aplicar filtro de naturalidade (se houver natural selecionado)
+                if (naturalFilters.length > 0) {
+                    filtered = filtered.filter(blend => 
+                        naturalFilters.includes(blend.natural.toString())
+                    );
+                }
+
+                console.log('Blends filtrados:', filtered.length);
+                renderBlends(filtered);
+                
+            } catch (error) {
+                console.error('Erro na função filterBlends:', error);
+                renderBlends(blends);
+            }
+        }
+
+        // Função para resetar todos os filtros
+        function resetFilters() {
+            // Remover classe active de todos os filtros
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Ativar apenas o filtro "Todas"
+            const allBtn = document.querySelector('[data-filter="all"]');
+            if (allBtn) {
+                allBtn.classList.add('active');
+            }
+            
+            // Renderizar todos os blends
+            renderBlends(blends);
+        }
+
+        // Event listeners para filtros
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn')) {
+                e.preventDefault();
+                const btn = e.target;
+                const isTypeFilter = btn.dataset.filter !== undefined;
+                const isCostFilter = btn.dataset.cost !== undefined;
+                const isNaturalFilter = btn.dataset.natural !== undefined;
+                
+                if (isTypeFilter && btn.dataset.filter === 'all') {
+                    // Desselecionar todos os outros filtros de tipo
+                    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                } else if (isTypeFilter) {
+                    // Remover filtro 'all' se tipo específico for selecionado
+                    const allBtn = btn.parentElement.querySelector('[data-filter="all"]');
+                    if (allBtn) allBtn.classList.remove('active');
+                    btn.classList.toggle('active');
+                } else if (isCostFilter || isNaturalFilter) {
+                    // Para filtros de custo e natural, toggle individual
+                    btn.classList.toggle('active');
+                }
+                
+                // Executar filtro
+                setTimeout(() => {
+                    filterBlends();
+                }, 10);
+            }
+        });
+
+        // Função da calculadora
+        function calculateBlend() {
+            const totalWaxInput = document.getElementById('totalWax');
+            const blendTypeSelect = document.getElementById('blendType');
+            const resultDiv = document.getElementById('calcResult');
+            const resultText = document.getElementById('resultText');
+
+            if (!totalWaxInput || !blendTypeSelect || !resultDiv || !resultText) return;
+
+            const totalWax = parseFloat(totalWaxInput.value);
+            const blendType = blendTypeSelect.value;
+
+            if (!totalWax || !blendType || totalWax <= 0) {
+                resultDiv.style.display = 'none';
+                return;
+            }
+
+            const blendData = {
+                'soja-parafina-70-30': { 
+                    first: 0.7, 
+                    second: 0.3, 
+                    names: ['Cera de Soja', 'Parafina'],
+                    uso: 'Velas aromáticas em potes de vidro',
+                    pavio: 'Algodão médio (ECO 6-8 ou CD 10-12)',
+                    temperatura: '65-70°C para derretimento',
+                    fragrancia: '8-10% do peso total da cera',
+                    dicas: 'Ideal para iniciantes, boa fixação de aroma'
+                },
+                'soja-coco-80-20': { 
+                    first: 0.8, 
+                    second: 0.2, 
+                    names: ['Cera de Soja', 'Cera de Coco'],
+                    uso: 'Velas premium aromáticas e terapêuticas',
+                    pavio: 'Algodão médio/grosso (ECO 8-10 ou CD 12-14)',
+                    temperatura: '60-65°C para derretimento',
+                    fragrancia: '10-12% do peso total da cera',
+                    dicas: 'Blend natural premium, excelente throw de aroma'
+                },
+                'palma-parafina-70-30': { 
+                    first: 0.7, 
+                    second: 0.3, 
+                    names: ['Cera de Palma', 'Parafina'],
+                    uso: 'Velas moldadas e decorativas',
+                    pavio: 'Algodão grosso (ECO 10-12 ou CD 14-16)',
+                    temperatura: '70-75°C para derretimento',
+                    fragrancia: '6-8% do peso total da cera',
+                    dicas: 'Perfeito para velas em formatos complexos'
+                },
+                'abelha-soja-60-40': { 
+                    first: 0.6, 
+                    second: 0.4, 
+                    names: ['Cera de Abelha', 'Cera de Soja'],
+                    uso: 'Velas naturais e terapêuticas',
+                    pavio: 'Algodão médio (ECO 6-8 ou fibra natural)',
+                    temperatura: '62-68°C para derretimento',
+                    fragrancia: '5-7% óleos essenciais naturais',
+                    dicas: 'Aroma natural de mel, propriedades purificadoras'
+                },
+                'coco-palma-70-30': { 
+                    first: 0.7, 
+                    second: 0.3, 
+                    names: ['Cera de Coco', 'Cera de Palma'],
+                    uso: 'Velas artesanais premium',
+                    pavio: 'Algodão médio/grosso (ECO 8-10 ou CD 12-14)',
+                    temperatura: '65-70°C para derretimento',
+                    fragrancia: '9-11% do peso total da cera',
+                    dicas: 'Blend sustentável com queima longa'
+                }
+            };
+
+            const data = blendData[blendType];
+            if (!data) {
+                resultDiv.style.display = 'none';
+                return;
+            }
+
+            const firstAmount = Math.round(totalWax * data.first);
+            const secondAmount = Math.round(totalWax * data.second);
+            const fragAmount = Math.round(totalWax * 0.09); // 9% média
+
+            resultText.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <strong>📊 PROPORÇÕES PARA ${totalWax}g:</strong><br>
+                    • ${data.names[0]}: <strong>${firstAmount}g</strong><br>
+                    • ${data.names[1]}: <strong>${secondAmount}g</strong><br>
+                    • Fragrância sugerida: <strong>${fragAmount}g</strong>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <strong>🎯 USO RECOMENDADO:</strong><br>
+                    ${data.uso}
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <strong>🕯️ PAVIO SUGERIDO:</strong><br>
+                    ${data.pavio}
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <strong>🌡️ TEMPERATURA:</strong><br>
+                    ${data.temperatura}
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <strong>🌸 FRAGRÂNCIA:</strong><br>
+                    ${data.fragrancia}
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px; margin-top: 15px;">
+                    <strong>💡 DICA ESPECIAL:</strong><br>
+                    ${data.dicas}
+                </div>
+            `;
+            
+            resultDiv.style.display = 'block';
+        }
+
+        // Event listeners para calculadora
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'totalWax') {
+                calculateBlend();
+            }
+        });
+
+        document.addEventListener('change', function(e) {
+            if (e.target.id === 'blendType') {
+                calculateBlend();
+            }
+        });
+
+        // Inicialização com verificações de segurança
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                renderBlends();
+            } catch (error) {
+                console.error('Erro na inicialização:', error);
+                // Tentar novamente após um pequeno delay
+                setTimeout(() => {
+                    try {
+                        renderBlends();
+                    } catch (e) {
+                        console.error('Erro persistente:', e);
+                    }
+                }, 100);
+            }
+        });
+
+        // Fallback se DOMContentLoaded já passou
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                renderBlends();
+            });
+        } else {
+            // Executar imediatamente se a página já carregou
+            try {
+                renderBlends();
+            } catch (error) {
+                console.error('Erro na renderização:', error);
+                setTimeout(() => renderBlends(), 100);
+            }
+        }
+    </script>
+</body>
+</html>
